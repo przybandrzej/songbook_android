@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginButton.setOnClickListener(v -> {
-            Log.d("OnClick", "clicked");
+            Log.d("OnClick", "login");
             loadingProgressBar.setVisibility(View.VISIBLE);
             String pass = passwordEditText.getText().toString();
             String login = usernameEditText.getText().toString();

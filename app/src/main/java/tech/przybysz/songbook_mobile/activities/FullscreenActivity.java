@@ -6,18 +6,13 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.concurrent.Executors;
-
 import tech.przybysz.songbook_mobile.R;
-import tech.przybysz.songbook_mobile.api_client.domain.LoginForm;
-import tech.przybysz.songbook_mobile.api_client.invoker.ApiClient;
-import tech.przybysz.songbook_mobile.api_client.rest.AdminResourceApi;
-import tech.przybysz.songbook_mobile.api_client.rest.AuthenticationResourceApi;
+import tech.przybysz.songbook_mobile.services.AuthService;
 import tech.przybysz.songbook_mobile.services.PreferenceService;
 
 /**
@@ -129,6 +124,12 @@ public class FullscreenActivity extends AppCompatActivity {
 
         String token = PreferenceService.getInstance().getItem("token");
         Log.d("Init", "token: " + token);
+
+        final Button loginButton = findViewById(R.id.logout);
+        loginButton.setOnClickListener(view -> {
+            Log.d("OnClick", "logout");
+            AuthService.getInstance().signOut();
+        });
     }
 
     @Override
