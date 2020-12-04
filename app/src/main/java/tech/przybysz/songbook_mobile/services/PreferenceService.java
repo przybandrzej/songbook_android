@@ -23,6 +23,9 @@ public class PreferenceService {
     }
 
     public static PreferenceService getInstance() {
+        if(Instance == null) {
+            throw new RuntimeException("PreferenceService was not initialized.");
+        }
         return Instance;
     }
 
@@ -32,5 +35,9 @@ public class PreferenceService {
 
     public String getItem(String key) {
         return preferences.getString(key, null);
+    }
+
+    public void removeItem(String item) {
+        preferences.edit().remove(item).apply();
     }
 }

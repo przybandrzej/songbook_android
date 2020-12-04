@@ -1,4 +1,4 @@
-package tech.przybysz.songbook_mobile;
+package tech.przybysz.songbook_mobile.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.Executors;
 
+import tech.przybysz.songbook_mobile.R;
 import tech.przybysz.songbook_mobile.api_client.domain.LoginForm;
 import tech.przybysz.songbook_mobile.api_client.invoker.ApiClient;
 import tech.przybysz.songbook_mobile.api_client.rest.AdminResourceApi;
