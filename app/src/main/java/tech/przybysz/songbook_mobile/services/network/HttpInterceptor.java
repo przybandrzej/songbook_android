@@ -15,7 +15,6 @@ public class HttpInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Log.d("Interceptor", "intercept");
         String token = PreferenceService.getInstance().getItem(TOKEN_KEY);
         Request request = chain.request()
                 .newBuilder()

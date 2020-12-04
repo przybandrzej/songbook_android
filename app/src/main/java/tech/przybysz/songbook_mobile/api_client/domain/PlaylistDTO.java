@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-11-19T15:40:15.848+01:00")
 public class PlaylistDTO {
   @SerializedName("creationTime")
-  private Instant creationTime = null;
+  private LocalDateTime creationTime = null;
 
   @SerializedName("id")
   private Long id = null;
@@ -50,7 +50,7 @@ public class PlaylistDTO {
   @SerializedName("songs")
   private List<Long> songs = new ArrayList<>();
 
-  public PlaylistDTO creationTime(Instant creationTime) {
+  public PlaylistDTO creationTime(LocalDateTime creationTime) {
     this.creationTime = creationTime;
     return this;
   }
@@ -60,11 +60,11 @@ public class PlaylistDTO {
    * @return creationTime
   **/
   @ApiModelProperty(value = "")
-  public Instant getCreationTime() {
+  public LocalDateTime getCreationTime() {
     return creationTime;
   }
 
-  public void setCreationTime(Instant creationTime) {
+  public void setCreationTime(LocalDateTime creationTime) {
     this.creationTime = creationTime;
   }
 

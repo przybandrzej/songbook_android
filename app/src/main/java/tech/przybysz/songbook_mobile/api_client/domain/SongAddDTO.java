@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * SongAddDTO
@@ -40,7 +40,7 @@ public class SongAddDTO {
   private Long id = null;
 
   @SerializedName("timestamp")
-  private Instant timestamp = null;
+  private LocalDateTime timestamp = null;
 
   public SongAddDTO addedBy(Long addedBy) {
     this.addedBy = addedBy;
@@ -96,7 +96,7 @@ public class SongAddDTO {
     this.id = id;
   }
 
-  public SongAddDTO timestamp(Instant timestamp) {
+  public SongAddDTO timestamp(LocalDateTime timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -106,11 +106,11 @@ public class SongAddDTO {
    * @return timestamp
   **/
   @ApiModelProperty(value = "")
-  public Instant getTimestamp() {
+  public LocalDateTime getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(Instant timestamp) {
+  public void setTimestamp(LocalDateTime timestamp) {
     this.timestamp = timestamp;
   }
 

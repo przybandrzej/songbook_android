@@ -15,46 +15,41 @@ package tech.przybysz.songbook_mobile.api_client.invoker;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.gson.JsonElement;
-import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.TypeSelector;
-
-import tech.przybysz.songbook_mobile.api_client.domain.*;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
-import java.util.HashMap;
+
+import io.gsonfire.GsonFireBuilder;
 
 public class JSON {
     private Gson gson;
     private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
     private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
     private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private LocalDateTimeTypeAdapter localDateTimeTypeAdapter = new LocalDateTimeTypeAdapter();
 
     public static GsonBuilder createGson() {
-        GsonFireBuilder fireBuilder = new GsonFireBuilder()
-        ;
+        GsonFireBuilder fireBuilder = new GsonFireBuilder();
         return fireBuilder.createGsonBuilder();
     }
 
     private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
         JsonElement element = readElement.getAsJsonObject().get(discriminatorField);
-        if(null == element) {
+        if (null == element) {
             throw new IllegalArgumentException("missing discriminator field: <" + discriminatorField + ">");
         }
         return element.getAsString();
@@ -62,7 +57,7 @@ public class JSON {
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
         Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase());
-        if(null == clazz) {
+        if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
         return clazz;
@@ -70,11 +65,11 @@ public class JSON {
 
     public JSON() {
         gson = createGson()
-            .registerTypeAdapter(Date.class, dateTypeAdapter)
-            .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
-            .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
-            .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
-            .create();
+                .registerTypeAdapter(Date.class, dateTypeAdapter)
+                .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
+                .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
+                .registerTypeAdapter(LocalDateTime.class, localDateTimeTypeAdapter)
+                .create();
     }
 
     /**
@@ -134,7 +129,7 @@ public class JSON {
                 default:
                     String date = in.nextString();
                     if (date.endsWith("+0000")) {
-                        date = date.substring(0, date.length()-5) + "Z";
+                        date = date.substring(0, date.length() - 5) + "Z";
                     }
                     return OffsetDateTime.parse(date, formatter);
             }
@@ -142,17 +137,17 @@ public class JSON {
     }
 
     /**
-     * Gson TypeAdapter for JSR310 LocalDate type
+     * Gson TypeAdapter for JSR310 LocalDateTime type
      */
-    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+    public class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
 
         private DateTimeFormatter formatter;
 
-        public LocalDateTypeAdapter() {
+        public LocalDateTimeTypeAdapter() {
             this(DateTimeFormatter.ISO_LOCAL_DATE);
         }
 
-        public LocalDateTypeAdapter(DateTimeFormatter formatter) {
+        public LocalDateTimeTypeAdapter(DateTimeFormatter formatter) {
             this.formatter = formatter;
         }
 
@@ -161,7 +156,7 @@ public class JSON {
         }
 
         @Override
-        public void write(JsonWriter out, LocalDate date) throws IOException {
+        public void write(JsonWriter out, LocalDateTime date) throws IOException {
             if (date == null) {
                 out.nullValue();
             } else {
@@ -170,15 +165,14 @@ public class JSON {
         }
 
         @Override
-        public LocalDate read(JsonReader in) throws IOException {
-            switch (in.peek()) {
-                case NULL:
-                    in.nextNull();
-                    return null;
-                default:
-                    String date = in.nextString();
-                    return LocalDate.parse(date, formatter);
+        public LocalDateTime read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
             }
+            String date = in.nextString();
+            date = date.replace("T", " ").replace("Z", "");
+            return LocalDateTime.parse(date, formatter);
         }
     }
 
@@ -187,8 +181,8 @@ public class JSON {
         return this;
     }
 
-    public JSON setLocalDateFormat(DateTimeFormatter dateFormat) {
-        localDateTypeAdapter.setFormat(dateFormat);
+    public JSON setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        localDateTimeTypeAdapter.setFormat(dateFormat);
         return this;
     }
 
