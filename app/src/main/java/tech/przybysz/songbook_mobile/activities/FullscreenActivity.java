@@ -182,21 +182,4 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
-
-    public void login(View view) {
-        EditText username = findViewById(R.id.login_et);
-        EditText password = findViewById(R.id.password_et);
-        Log.d("Sign in", "login: " + username.getText());
-        Log.d("Sign in", "password: " + password.getText());
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            AuthenticationResourceApi api = ApiClient.getInstance().createService(AuthenticationResourceApi.class);
-            api.authenticateUsingPOST(new LoginForm().login(username.getText().toString()).password(password.getText().toString())).subscribe(res -> {
-                        String token = res.getIdToken();
-                        Log.d("Sign in", "token: " + token);
-                        PreferenceService.getInstance().setItem("token", token);
-                    },
-                    error -> Log.d("Sign in", error.getLocalizedMessage()));
-        });
-    }
 }

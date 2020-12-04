@@ -19,6 +19,8 @@ import tech.przybysz.songbook_mobile.services.network.HttpInterceptor;
 
 public class SongbookAndroidApplication extends Application {
 
+    public static final DateTimeFormatter APP_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS").withZone(ZoneId.of("Z"));
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,7 +31,7 @@ public class SongbookAndroidApplication extends Application {
         ApiClient.getInstance()
                 .setLoggingLevel(HttpLoggingInterceptor.Level.BODY)
                 .addAuthorization("interceptor", new HttpInterceptor())
-                .setLocalDateFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS").withZone(ZoneId.of("Z")));
+                .setLocalDateFormat(APP_FORMATTER);
         //.setBaseUrl();
         PreferenceService.init(getApplicationContext());
     }
