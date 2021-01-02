@@ -1,5 +1,6 @@
 package tech.przybysz.songbook_mobile.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,22 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 import java.util.concurrent.Executors;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.przybysz.songbook_mobile.R;
-import tech.przybysz.songbook_mobile.api_client.domain.LoginForm;
 import tech.przybysz.songbook_mobile.api_client.domain.UserDTO;
-import tech.przybysz.songbook_mobile.api_client.invoker.ApiClient;
-import tech.przybysz.songbook_mobile.api_client.rest.AuthenticationResourceApi;
 import tech.przybysz.songbook_mobile.services.AuthService;
 
 public class LoginActivity extends AppCompatActivity {
@@ -70,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser(UserDTO model) {
         String welcome = getString(R.string.welcome) + model.getUsername();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(LoginActivity.this, SongbookTableOfContentsActivity.class));
+
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
