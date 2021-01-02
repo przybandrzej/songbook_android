@@ -1,6 +1,7 @@
 package tech.przybysz.songbook_mobile.activities.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,26 @@ public class SongTableAdapter extends ArrayAdapter<Song> {
         ((TextView) convertView.findViewById(R.id.text_1)).setText(song.getTitle());
         ((TextView) convertView.findViewById(R.id.text_2)).setText(song.getAuthor());
         Button likeButton = convertView.findViewById(R.id.like_button);
+        Button settingsButton = convertView.findViewById(R.id.settings_button);
+        likeButton.setFocusable(false);
+        settingsButton.setFocusable(false);
+        settingsButton.setOnClickListener(view -> {
+            Log.d("Settings button", "clicked");
+        });
+        likeButton.setOnClickListener(view -> {
+            Log.d("Like button", "clicked");
+        });
+
         /*if (song.isLiked()) {
             likeButton.setBackgroundResource(R.drawable.ic_like_filled);
         } else {
             likeButton.setBackgroundResource(R.drawable.ic_like_border);
         }*/
         return convertView;
+    }
+
+    public Song getSong(int position) {
+        return songs.get(position);
     }
 
 }

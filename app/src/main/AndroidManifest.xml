@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Songbook"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.SongbookTableOfContentsActivity"></activity>
+        <activity android:name=".activities.SongActivity"></activity>
+        <activity android:name=".activities.SongbookTableOfContentsActivity" />
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -23,6 +24,7 @@
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
