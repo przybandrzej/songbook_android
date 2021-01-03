@@ -2,6 +2,7 @@ package tech.przybysz.songbook_mobile.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class Playlist implements Serializable {
     private LocalDateTime creationTime;
     private boolean isPrivate;
     private User owner;
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
 
     public Playlist(Long id, String name, LocalDateTime creationTime, boolean isPrivate, User owner, List<Song> songs) {
         this.id = id;
@@ -20,6 +21,9 @@ public class Playlist implements Serializable {
         this.isPrivate = isPrivate;
         this.owner = owner;
         this.songs = songs;
+    }
+
+    public Playlist() {
     }
 
     @Override

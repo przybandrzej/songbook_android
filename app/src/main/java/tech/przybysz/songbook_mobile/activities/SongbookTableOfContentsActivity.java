@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import tech.przybysz.songbook_mobile.R;
 import tech.przybysz.songbook_mobile.activities.adapters.SongTableAdapter;
+import tech.przybysz.songbook_mobile.api_client.domain.AuthorDTO;
 import tech.przybysz.songbook_mobile.model.Song;
 
 public class SongbookTableOfContentsActivity extends Activity {
@@ -39,22 +41,14 @@ public class SongbookTableOfContentsActivity extends Activity {
 
     private List<Song> getSongs() {
         List<Song> list = new ArrayList<>(4);
-        list.add(new Song("Nieoficjalny hymn STK", "Andrzej Reszelski", true));
-        list.add(new Song("STK", "Heheh", true));
-        list.add(new Song("Bieszczadzki Trakt", "Andrzej Starzec", false));
-        list.add(new Song("Lalalalalaalalalalallalalaalalalalalal", "Autor", false));
-        list.add(new Song("Nieoficjalny hymn STK", "Andrzej Reszelski", true));
-        list.add(new Song("STK", "Heheh", true));
-        list.add(new Song("Bieszczadzki Trakt", "Andrzej Starzec", false));
-        list.add(new Song("Lalalalalaalalalalallalalaalalalalalal", "Autor", false));
-        list.add(new Song("Nieoficjalny hymn STK", "Andrzej Reszelski", true));
-        list.add(new Song("STK", "Heheh", true));
-        list.add(new Song("Bieszczadzki Trakt", "Andrzej Starzec", false));
-        list.add(new Song("Lalalalalaalalalalallalalaalalalalalallalalalalalalalalalalal", "Autor", false));
-        list.add(new Song("Nieoficjalny hymn STK", "Andrzej Reszelski", true));
-        list.add(new Song("STK", "Heheh", true));
-        list.add(new Song("Bieszczadzki Trakt", "Andrzej Starzec", false));
-        list.add(new Song("Lalalalalaalalalalallalalaalalalalalal", "Autor", false));
+        Song song = new Song();
+        song.setId(1L);
+        song.setAuthor(new AuthorDTO().id(1L).name("Andrzej Starzec"));
+        song.setAverageRating(new BigDecimal("0.40"));
+        song.setGuitarTabs("CD E D");
+        song.setUserRating(new BigDecimal("0.25"));
+        song.setTitle("Bieszczadzki trakt");
+        list.add(song);
         return list;
     }
 }

@@ -13,6 +13,7 @@
 
 package tech.przybysz.songbook_mobile.api_client.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -28,7 +29,7 @@ import java.io.IOException;
  * AuthorDTO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-11-19T15:40:15.848+01:00")
-public class AuthorDTO {
+public class AuthorDTO implements Serializable {
   @SerializedName("id")
   private Long id = null;
 

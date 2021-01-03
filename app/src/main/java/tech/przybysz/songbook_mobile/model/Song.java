@@ -2,6 +2,7 @@ package tech.przybysz.songbook_mobile.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,22 +17,24 @@ public class Song implements Serializable {
     private AuthorDTO author;
     private boolean isInUserLib;
     private BigDecimal averageRating;
+    private BigDecimal userRating;
     private CategoryDTO category;
     private String guitarTabs;
     private String lyrics;
     private boolean isAwaiting;
-    private List<TagDTO> tags;
+    private List<TagDTO> tags = new ArrayList<>();
     private String trivia;
-    private List<Coauthor> coauthors;
+    private List<Coauthor> coauthors = new ArrayList<>();
     private SongAdd songAdd;
-    private List<SongEdit> edits;
+    private List<SongEdit> edits = new ArrayList<>();
 
-    public Song(Long id, String title, AuthorDTO author, boolean isInUserLib, BigDecimal averageRating, CategoryDTO category, String guitarTabs, String lyrics, boolean isAwaiting, List<TagDTO> tags, String trivia, List<Coauthor> coauthors, SongAdd songAdd, List<SongEdit> edits) {
+    public Song(Long id, String title, AuthorDTO author, boolean isInUserLib, BigDecimal averageRating, BigDecimal userRating, CategoryDTO category, String guitarTabs, String lyrics, boolean isAwaiting, List<TagDTO> tags, String trivia, List<Coauthor> coauthors, SongAdd songAdd, List<SongEdit> edits) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.isInUserLib = isInUserLib;
         this.averageRating = averageRating;
+        this.userRating = userRating;
         this.category = category;
         this.guitarTabs = guitarTabs;
         this.lyrics = lyrics;
@@ -41,6 +44,9 @@ public class Song implements Serializable {
         this.coauthors = coauthors;
         this.songAdd = songAdd;
         this.edits = edits;
+    }
+
+    public Song() {
     }
 
     public Long getId() {
@@ -155,6 +161,14 @@ public class Song implements Serializable {
         this.edits = edits;
     }
 
+    public BigDecimal getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(BigDecimal userRating) {
+        this.userRating = userRating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -167,11 +181,12 @@ public class Song implements Serializable {
                 Objects.equals(averageRating, song.averageRating) &&
                 Objects.equals(guitarTabs, song.guitarTabs) &&
                 Objects.equals(lyrics, song.lyrics) &&
-                Objects.equals(trivia, song.trivia);
+                Objects.equals(trivia, song.trivia) &&
+                Objects.equals(userRating, song.userRating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, isInUserLib, averageRating, guitarTabs, lyrics, isAwaiting, trivia);
+        return Objects.hash(id, title, isInUserLib, averageRating, guitarTabs, lyrics, isAwaiting, trivia, userRating);
     }
 }

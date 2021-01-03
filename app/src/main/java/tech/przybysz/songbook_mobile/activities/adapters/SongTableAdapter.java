@@ -35,7 +35,7 @@ public class SongTableAdapter extends ArrayAdapter<Song> {
         Song song = songs.get(position);
         ((TextView) convertView.findViewById(R.id.count_tv)).setText((position + 1) + ".");
         ((TextView) convertView.findViewById(R.id.text_1)).setText(song.getTitle());
-        ((TextView) convertView.findViewById(R.id.text_2)).setText(song.getAuthor());
+        ((TextView) convertView.findViewById(R.id.text_2)).setText(song.getAuthor().getName());
         Button likeButton = convertView.findViewById(R.id.like_button);
         Button settingsButton = convertView.findViewById(R.id.settings_button);
         likeButton.setFocusable(false);

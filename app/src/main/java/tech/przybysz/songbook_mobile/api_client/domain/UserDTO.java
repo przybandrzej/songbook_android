@@ -15,6 +15,7 @@ package tech.przybysz.songbook_mobile.api_client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
  * UserDTO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-11-19T15:40:15.848+01:00")
-public class UserDTO {
+public class UserDTO implements Serializable {
     @SerializedName("activated")
     private Boolean activated = null;
 

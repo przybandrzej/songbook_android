@@ -2,6 +2,7 @@ package tech.przybysz.songbook_mobile.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,10 +19,10 @@ public class User implements Serializable {
     private String lastName;
     private String imageUrl;
     private UserRoleDTO role;
-    private List<Song> library;
-    private List<SongAdd> addedSongs;
-    private List<SongEdit> editedSongs;
-    private List<Playlist> playlists;
+    private List<Song> library = new ArrayList<>();
+    private List<SongAdd> addedSongs = new ArrayList<>();
+    private List<SongEdit> editedSongs = new ArrayList<>();
+    private List<Playlist> playlists = new ArrayList<>();
 
     public User(Long id, boolean activated, LocalDateTime registrationDate, String email, String username, String firstName, String lastName, String imageUrl, UserRoleDTO role, List<Song> library, List<SongAdd> addedSongs, List<SongEdit> editedSongs, List<Playlist> playlists) {
         this.id = id;
@@ -37,6 +38,9 @@ public class User implements Serializable {
         this.addedSongs = addedSongs;
         this.editedSongs = editedSongs;
         this.playlists = playlists;
+    }
+
+    public User() {
     }
 
     @Override
