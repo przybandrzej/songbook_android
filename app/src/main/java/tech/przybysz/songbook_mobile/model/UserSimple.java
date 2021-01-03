@@ -42,12 +42,12 @@ public class UserSimple implements Serializable {
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(imageUrl, that.imageUrl) &&
-                Objects.equals(role, that.role);
+                Objects.equals(role.getId(), that.role.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, activated, registrationDate, email, username, firstName, lastName, imageUrl, role);
+        return Objects.hash(id, activated, registrationDate, email, username, firstName, lastName, imageUrl, role.getId());
     }
 
     public Long getId() {

@@ -52,12 +52,12 @@ public class User implements Serializable {
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(imageUrl, user.imageUrl) &&
-                Objects.equals(role, user.role);
+                Objects.equals(role.getId(), user.role.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, activated, registrationDate, email, username, firstName, lastName, imageUrl, role);
+        return Objects.hash(id, activated, registrationDate, email, username, firstName, lastName, imageUrl, role.getId());
     }
 
     public Long getId() {

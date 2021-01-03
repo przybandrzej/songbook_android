@@ -31,12 +31,12 @@ public class Playlist implements Serializable {
                 id.equals(playlist.id) &&
                 Objects.equals(name, playlist.name) &&
                 Objects.equals(creationTime, playlist.creationTime) &&
-                Objects.equals(owner, playlist.owner);
+                Objects.equals(owner.getId(), playlist.owner.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, creationTime, isPrivate);
+        return Objects.hash(id, name, creationTime, isPrivate, owner.getId());
     }
 
     public Long getId() {
