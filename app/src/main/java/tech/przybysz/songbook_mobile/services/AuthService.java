@@ -24,7 +24,7 @@ public class AuthService {
         String token = PreferenceService.getInstance().getItem(TOKEN_KEY);
         Instance.loggedIn = token != null;
         if(token != null) {
-            Instance.api.getAccountUsingGET().blockingSubscribe(res -> Instance.user = res);
+            Instance.api.getAccountUsingGET().blockingSubscribe(res -> Instance.user = res, throwable -> Instance.signOut());
         }
         return Instance;
     }
