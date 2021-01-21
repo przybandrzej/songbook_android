@@ -10,7 +10,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:paddingHorizontal="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,25 +19,26 @@
             android:id="@+id/title_author_lt"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/rating_lt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rating_lt">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:maxLines="3"/>
+                android:maxLines="3"
+                android:text="Title" />
 
             <TextView
                 android:id="@+id/author_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:text="Author"
-                android:maxLines="2"/>
+                android:maxLines="2"
+                android:text="Author" />
 
         </LinearLayout>
 
@@ -49,19 +50,19 @@
             app:layout_constraintEnd_toStartOf="@+id/like_settings_layout"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageButton
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/mrb_star_border_icon_black_36dp" />
+
             <TextView
                 android:id="@+id/rating_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Average rating: ..." />
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
                 android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:numStars="1" />
+                android:text="0.0" />
 
         </LinearLayout>
 
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="24dp"
+            android:paddingStart="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +88,7 @@
 
             <Button
                 android:id="@+id/settings_btn"
-                android:layout_width="48dp"
+                android:layout_width="24dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"

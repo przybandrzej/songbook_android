@@ -46,7 +46,7 @@ public class SongbookTableOfContentsActivity extends Activity {
         song.setAuthor(new AuthorDTO().id(1L).name("Andrzej Starzec"));
         song.setAverageRating(new BigDecimal("0.40"));
         song.setGuitarTabs("CD E D");
-        song.setUserRating(new BigDecimal("0.25"));
+        //song.setUserRating();
         song.setTitle("Bieszczadzki trakt");
         list.add(song);
         return list;

@@ -1,5 +1,6 @@
 package tech.przybysz.songbook_mobile.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import tech.przybysz.songbook_mobile.services.AuthService;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @SuppressLint("CheckResult")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

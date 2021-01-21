@@ -63,4 +63,5 @@ dependencies {
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 }
