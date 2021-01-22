@@ -1,11 +1,13 @@
 package tech.przybysz.songbook_mobile.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
 import tech.przybysz.songbook_mobile.api_client.domain.SongDTO;
+import tech.przybysz.songbook_mobile.api_client.domain.UserSongRatingDTO;
 import tech.przybysz.songbook_mobile.api_client.invoker.ApiClient;
 import tech.przybysz.songbook_mobile.api_client.rest.AuthorResourceApi;
 import tech.przybysz.songbook_mobile.api_client.rest.SongResourceApi;
@@ -55,7 +57,7 @@ public class SongService {
         song.setTrivia(dto.getTrivia());
         SongAdd add = new SongAdd(dto.getAddedBy().getId(), userApi.getByIdUsingGET6(dto.getAddedBy().getAddedBy()).blockingFirst(), song, dto.getAddedBy().getTimestamp());
         song.setSongAdd(add);
-        ratingApi.getByUserIdAndSongIdUsingGET(authService.getUser().getId(), song.getId()).blockingSubscribe(res -> {
+        ratingApi.getByUserIdAndSongIdUsingGET(song.getId(), authService.getUser().getId()).blockingSubscribe(res -> {
             song.setUserRating(res.getRating());
         }, err -> {});
         song.setInUserLib(api.getUserSongsUsingGET(authService.getUser().getId()).blockingFirst().stream().anyMatch(it -> it.getId().equals(song.getId())));
@@ -76,7 +78,18 @@ public class SongService {
         Executors.newSingleThreadExecutor().execute(() -> userApi.removeSongFromLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait());
     }
 
-    public void rateSong(Long id, float rating) {
-
+    public void rateSong(Long id, Float rating) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            if (rating == null) {
+                ratingApi.deleteUsingDELETE8(id, authService.getUser().getId()).subscribe();
+            } else {
+                ratingApi.getByUserIdAndSongIdUsingGET(id, authService.getUser().getId()).blockingSubscribe(res -> {
+                    res.setRating(BigDecimal.valueOf(rating));
+                    ratingApi.updateUsingPUT7(res).blockingSubscribe();
+                }, err -> {
+                    ratingApi.createUsingPOST7(new UserSongRatingDTO().songId(id).userId(authService.getUser().getId()).rating(BigDecimal.valueOf(rating))).blockingSubscribe();
+                });
+            }
+        });
     }
 }

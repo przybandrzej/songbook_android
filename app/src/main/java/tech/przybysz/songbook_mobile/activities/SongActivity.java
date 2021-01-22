@@ -71,7 +71,7 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     }
 
     private void ratingClicked(View view) {
-        DialogFragment dialog = new RateDialogFragment(song.getUserRating() != null ? song.getUserRating().floatValue() : null);
+        DialogFragment dialog = new RateDialogFragment(song.getUserRating() != null ? song.getUserRating().floatValue() * 5 : null);
         dialog.show(getSupportFragmentManager(), "RateDialogFragment");
     }
 
@@ -79,6 +79,7 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     public void onDialogPositiveClick(DialogFragment dialog, float result) {
         Log.d("RATED", String.valueOf(result));
         song.setUserRating(BigDecimal.valueOf(result));
+        SongService.getInstance().rateSong(song.getId(), result/5);
         ratingButton.setImageResource(R.drawable.mrb_star_icon_black_36dp);
     }
 
@@ -90,6 +91,7 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     @Override
     public void onDialogDeleteClick(DialogFragment dialog) {
         song.setUserRating(null);
+        SongService.getInstance().rateSong(song.getId(), null);
         ratingButton.setImageResource(R.drawable.mrb_star_border_icon_black_36dp);
     }
 }
