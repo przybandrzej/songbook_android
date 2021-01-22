@@ -1,6 +1,7 @@
 package tech.przybysz.songbook_mobile.services;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
@@ -68,14 +69,14 @@ public class SongService {
     }
 
     public void likeSong(Long id) {
-        userApi.addSongToLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait();
+        Executors.newSingleThreadExecutor().execute(() -> userApi.addSongToLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait());
     }
 
     public void dislikeSong(Long id) {
-        userApi.removeSongFromLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait();
+        Executors.newSingleThreadExecutor().execute(() -> userApi.removeSongFromLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait());
     }
 
     public void rateSong(Long id, float rating) {
-        
+
     }
 }
