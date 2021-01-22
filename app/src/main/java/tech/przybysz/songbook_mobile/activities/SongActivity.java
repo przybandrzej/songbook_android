@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import tech.przybysz.songbook_mobile.R;
 import tech.przybysz.songbook_mobile.activities.dialogs.RateDialogFragment;
 import tech.przybysz.songbook_mobile.model.Song;
+import tech.przybysz.songbook_mobile.services.SongService;
 
 public class SongActivity extends AppCompatActivity implements RateDialogFragment.RateDialogListener {
 
@@ -22,6 +23,7 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
 
     private Song song;
     private ImageButton ratingButton;
+    private Button likeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,11 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
             ratingButton.setImageResource(R.drawable.mrb_star_icon_black_36dp);
         }
         ratingButton.setOnClickListener(this::ratingClicked);
-        Button like = findViewById(R.id.like_btn);
-        like.setOnClickListener(this::likeClicked);
+        likeBtn = findViewById(R.id.like_btn);
+        if(song.isInUserLib()) {
+            likeBtn.setBackgroundResource(R.drawable.ic_like_filled);
+        }
+        likeBtn.setOnClickListener(this::likeClicked);
         Button settings = findViewById(R.id.settings_btn);
         settings.setOnClickListener(this::settingsClicked);
         ((TextView) findViewById(R.id.lyrics_tv)).setText(song.getLyrics());
@@ -50,7 +55,15 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     }
 
     private void likeClicked(View view) {
-        // TODO
+        if(!song.isInUserLib()) {
+            SongService.getInstance().likeSong(song.getId());
+            song.setInUserLib(true);
+            likeBtn.setBackgroundResource(R.drawable.ic_like_filled);
+        } else {
+            SongService.getInstance().dislikeSong(song.getId());
+            song.setInUserLib(false);
+            likeBtn.setBackgroundResource(R.drawable.ic_like_border);
+        }
     }
 
     private void settingsClicked(View view) {
