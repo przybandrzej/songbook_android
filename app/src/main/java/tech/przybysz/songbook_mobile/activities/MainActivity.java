@@ -1,6 +1,11 @@
 package tech.przybysz.songbook_mobile.activities;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +18,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import tech.przybysz.songbook_mobile.R;
+import tech.przybysz.songbook_mobile.api_client.domain.UserDTO;
+import tech.przybysz.songbook_mobile.services.AuthService;
+import tech.przybysz.songbook_mobile.services.DownloadImageTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        ImageView imageView = header.findViewById(R.id.imageView);
+        TextView userTv = header.findViewById(R.id.username);
+        TextView nameTv = header.findViewById(R.id.name);
+
+        UserDTO user = AuthService.getInstance().getUser();
+        new DownloadImageTask(imageView).execute(user.getImageUrl());
+        userTv.setText(user.getUsername());
+        nameTv.setText(user.getFirstName() + " " + user.getLastName());
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
