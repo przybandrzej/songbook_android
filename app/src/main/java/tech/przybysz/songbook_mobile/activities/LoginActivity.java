@@ -1,6 +1,7 @@
 package tech.przybysz.songbook_mobile.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,8 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser(UserDTO model) {
         String welcome = getString(R.string.welcome) + model.getUsername();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        startActivity(new Intent(LoginActivity.this, SongbookTableOfContentsActivity.class));
-
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

@@ -43,6 +43,7 @@ public class SongTableAdapter extends ArrayAdapter<SongDTO> {
         settingsButton.setFocusable(false);
         settingsButton.setOnClickListener(view -> {
             Log.d("Settings button", "clicked");
+            //todo
         });
         likeButton.setOnClickListener((v) -> this.likeClicked(v, song));
         Consumer<Boolean> callback = (isInUserLib) -> {

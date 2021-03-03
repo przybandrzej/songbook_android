@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_songbook">
+
+    <fragment
+        android:id="@+id/nav_songbook"
+        android:name="tech.przybysz.songbook_mobile.activities.fragments.SongbookFragment"
+        android:label="@string/menu_songbook"
+        tools:layout="@layout/fragment_songbook" />
+
+    <fragment
+        android:id="@+id/nav_library"
+        android:name="tech.przybysz.songbook_mobile.activities.fragments.LibraryFragment"
+        android:label="@string/menu_library"
+        tools:layout="@layout/fragment_library" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="tech.przybysz.songbook_mobile.activities.fragments.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="tech.przybysz.songbook_mobile.activities.fragments.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout" />
+</navigation>
