@@ -3,6 +3,7 @@ package tech.przybysz.songbook_mobile.services;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
@@ -59,7 +60,8 @@ public class SongService {
         song.setSongAdd(add);
         ratingApi.getByUserIdAndSongIdUsingGET(song.getId(), authService.getUser().getId()).blockingSubscribe(res -> {
             song.setUserRating(res.getRating());
-        }, err -> {});
+        }, err -> {
+        });
         song.setInUserLib(api.getUserSongsUsingGET(authService.getUser().getId()).blockingFirst().stream().anyMatch(it -> it.getId().equals(song.getId())));
         song.setCoauthors(dto.getCoauthors().stream().map(d -> new Coauthor(authorApi.getByIdUsingGET(d.getAuthorId()).blockingFirst(), song, d.getCoauthorFunction())).collect(Collectors.toList()));
         song.setEdits(dto.getEdits().stream().map(d -> new SongEdit(d.getId(), userApi.getByIdUsingGET6(d.getEditedBy()).blockingFirst(), song, d.getTimestamp())).collect(Collectors.toList()));
@@ -91,5 +93,11 @@ public class SongService {
                 });
             }
         });
+    }
+
+    public void isInUserLib(Long id, Consumer<Boolean> callback) {
+        Executors.newSingleThreadExecutor().execute(() ->
+                callback.accept(api.getUserSongsUsingGET(authService.getUser().getId())
+                        .blockingFirst().stream().anyMatch(it -> it.getId().equals(id))));
     }
 }
