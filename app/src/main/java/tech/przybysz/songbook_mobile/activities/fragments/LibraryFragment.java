@@ -55,7 +55,7 @@ public class LibraryFragment extends Fragment {
             loadingProgressBar.setVisibility(View.INVISIBLE);
         });
 
-        RecyclerView rv =  root.findViewById(R.id.playlist_view);
+        /*RecyclerView rv =  root.findViewById(R.id.playlist_view);
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         Executors.newSingleThreadExecutor().execute(() -> {
             List<PlaylistDTO> playlists = UserService.getInstance().getPlaylists(AuthService.getInstance().getUser().getId()).blockingFirst();
@@ -63,7 +63,7 @@ public class LibraryFragment extends Fragment {
                 PlaylistAdapter playlistAdapter = new PlaylistAdapter(playlists);
                 rv.setAdapter(playlistAdapter);
             });
-        });
+        });*/
         return root;
     }
 }
