@@ -100,4 +100,21 @@ public class SongService {
                 callback.accept(api.getUserSongsUsingGET(authService.getUser().getId())
                         .blockingFirst().stream().anyMatch(it -> it.getId().equals(id))));
     }
+
+    public void rateSong(Long id, Float rating, Consumer<BigDecimal> callback) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            if (rating == null) {
+                ratingApi.deleteUsingDELETE8(id, authService.getUser().getId()).blockingAwait();
+            } else {
+                ratingApi.getByUserIdAndSongIdUsingGET(id, authService.getUser().getId()).blockingSubscribe(res -> {
+                    res.setRating(BigDecimal.valueOf(rating));
+                    ratingApi.updateUsingPUT7(res).blockingSubscribe();
+                }, err -> {
+                    ratingApi.createUsingPOST7(new UserSongRatingDTO().songId(id).userId(authService.getUser().getId()).rating(BigDecimal.valueOf(rating))).blockingSubscribe();
+                });
+            }
+            callback.accept(api.getByIdUsingGET4(id)
+                    .blockingFirst().getAverageRating());
+        });
+    }
 }

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SongActivity">
+    tools:context=".activities.SongActivity"
+    android:paddingTop="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -30,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="3"
-                android:text="Title" />
+                android:text="Title"
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/author_tv"
@@ -38,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:maxLines="2"
-                android:text="Author" />
+                android:text="Author"
+                android:textSize="18sp"/>
 
         </LinearLayout>
 

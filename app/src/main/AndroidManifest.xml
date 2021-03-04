@@ -18,7 +18,8 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Songbook.NoActionBar"/>
-        <activity android:name=".activities.SongActivity" />
+        <activity android:name=".activities.SongActivity"
+            android:theme="@style/Theme.Songbook.NoActionBar"/>
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/Theme.Songbook.NoActionBar"/>
