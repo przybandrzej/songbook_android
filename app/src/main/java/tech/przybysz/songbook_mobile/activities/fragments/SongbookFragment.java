@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,8 @@ public class SongbookFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_songbook, container, false);
+        final ProgressBar loadingProgressBar = root.findViewById(R.id.loading);
+        loadingProgressBar.setVisibility(View.VISIBLE);
         ListView list = root.findViewById(R.id.song_list);
         List<SongDTO> songs = new ArrayList<>();
         SongTableAdapter adapter = new SongTableAdapter(getActivity(), songs);
@@ -41,6 +44,7 @@ public class SongbookFragment extends Fragment {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<SongDTO> result = SongService.getInstance().songList().blockingFirst();
             list.post(() -> list.setAdapter(new SongTableAdapter(getActivity(), result)));
+            loadingProgressBar.setVisibility(View.INVISIBLE);
         });
         return root;
     }
