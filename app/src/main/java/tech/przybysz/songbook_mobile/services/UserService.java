@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import io.reactivex.Observable;
+import tech.przybysz.songbook_mobile.api_client.domain.PlaylistDTO;
 import tech.przybysz.songbook_mobile.api_client.domain.SongDTO;
 import tech.przybysz.songbook_mobile.api_client.domain.UserRoleDTO;
 import tech.przybysz.songbook_mobile.api_client.invoker.ApiClient;
@@ -59,5 +61,9 @@ public class UserService {
 
     public UserRoleDTO getRole(long roleId) {
         return roleApi.getByIdUsingGET7(roleId).blockingFirst();
+    }
+
+    public Observable<List<PlaylistDTO>> getPlaylists(long user) {
+        return api.getPlaylistsByUserIdUsingGET(user);
     }
 }

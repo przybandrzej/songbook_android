@@ -72,6 +72,10 @@ public class SongService {
         return api.getAllUsingGET4(true, null);
     }
 
+    public Observable<List<SongDTO>> userSongs(Long userId) {
+        return api.getUserSongsUsingGET(userId);
+    }
+
     public void likeSong(Long id) {
         Executors.newSingleThreadExecutor().execute(() -> userApi.addSongToLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait());
     }
