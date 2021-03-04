@@ -18,7 +18,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             AuthService authService = AuthService.init();
             if (authService.isLoggedIn()) {
-                startActivity(new Intent(SplashScreenActivity.this, SongbookTableOfContentsActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
             } else {
                 startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
             }

@@ -24,6 +24,7 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     private Song song;
     private ImageButton ratingButton;
     private Button likeBtn;
+    private TextView ratingTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +37,10 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     private void init() {
         ((TextView) findViewById(R.id.title_tv)).setText(song.getTitle());
         ((TextView) findViewById(R.id.author_tv)).setText(song.getAuthor().getName());
-        ((TextView) findViewById(R.id.rating_tv)).setText(String.valueOf(song.getAverageRating()));
+        BigDecimal rating = song.getAverageRating() != null ? song.getAverageRating() : BigDecimal.valueOf(0);
+        ratingTv = findViewById(R.id.rating_tv);
+        ratingTv.setText(String.valueOf(rating));
         ratingButton = findViewById(R.id.ratingBar);
-        Log.d("Rating", "" + song.getUserRating());
         if (song.getUserRating() != null) {
             ratingButton.setImageResource(R.drawable.mrb_star_icon_black_36dp);
         }
@@ -77,9 +79,11 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, float result) {
-        Log.d("RATED", String.valueOf(result));
         song.setUserRating(BigDecimal.valueOf(result));
-        SongService.getInstance().rateSong(song.getId(), result/5);
+        SongService.getInstance().rateSong(song.getId(), result/5, rating -> {
+            BigDecimal rt = rating != null ? rating : BigDecimal.valueOf(0);
+            runOnUiThread(() -> ratingTv.setText(String.valueOf(rt)));
+        });
         ratingButton.setImageResource(R.drawable.mrb_star_icon_black_36dp);
     }
 
@@ -91,7 +95,10 @@ public class SongActivity extends AppCompatActivity implements RateDialogFragmen
     @Override
     public void onDialogDeleteClick(DialogFragment dialog) {
         song.setUserRating(null);
-        SongService.getInstance().rateSong(song.getId(), null);
+        SongService.getInstance().rateSong(song.getId(), null, rating -> {
+            BigDecimal rt = rating != null ? rating : BigDecimal.valueOf(0);
+            runOnUiThread(() -> ratingTv.setText(String.valueOf(rt)));
+        });
         ratingButton.setImageResource(R.drawable.mrb_star_border_icon_black_36dp);
     }
 }

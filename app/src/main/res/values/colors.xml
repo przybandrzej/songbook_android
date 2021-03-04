@@ -10,4 +10,9 @@
     <color name="secondaryTextColor">#000000</color>
 
     <color name="like">#d81b60</color>
+
+    <color name="superuser">#fdd835</color>
+    <color name="admin">#e53935</color>
+    <color name="moderator">#ff4081</color>
+    <color name="user">#388e3c</color>
 </resources>

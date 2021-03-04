@@ -72,6 +72,10 @@ public class SongService {
         return api.getAllUsingGET4(true, null);
     }
 
+    public Observable<List<SongDTO>> userSongs(Long userId) {
+        return api.getUserSongsUsingGET(userId);
+    }
+
     public void likeSong(Long id) {
         Executors.newSingleThreadExecutor().execute(() -> userApi.addSongToLibraryUsingPATCH(authService.getUser().getId(), id).blockingAwait());
     }
@@ -99,5 +103,22 @@ public class SongService {
         Executors.newSingleThreadExecutor().execute(() ->
                 callback.accept(api.getUserSongsUsingGET(authService.getUser().getId())
                         .blockingFirst().stream().anyMatch(it -> it.getId().equals(id))));
+    }
+
+    public void rateSong(Long id, Float rating, Consumer<BigDecimal> callback) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            if (rating == null) {
+                ratingApi.deleteUsingDELETE8(id, authService.getUser().getId()).blockingAwait();
+            } else {
+                ratingApi.getByUserIdAndSongIdUsingGET(id, authService.getUser().getId()).blockingSubscribe(res -> {
+                    res.setRating(BigDecimal.valueOf(rating));
+                    ratingApi.updateUsingPUT7(res).blockingSubscribe();
+                }, err -> {
+                    ratingApi.createUsingPOST7(new UserSongRatingDTO().songId(id).userId(authService.getUser().getId()).rating(BigDecimal.valueOf(rating))).blockingSubscribe();
+                });
+            }
+            callback.accept(api.getByIdUsingGET4(id)
+                    .blockingFirst().getAverageRating());
+        });
     }
 }
