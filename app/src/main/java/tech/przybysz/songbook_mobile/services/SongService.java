@@ -3,6 +3,7 @@ package tech.przybysz.songbook_mobile.services;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
@@ -59,7 +60,8 @@ public class SongService {
         song.setSongAdd(add);
         ratingApi.getByUserIdAndSongIdUsingGET(song.getId(), authService.getUser().getId()).blockingSubscribe(res -> {
             song.setUserRating(res.getRating());
-        }, err -> {});
+        }, err -> {
+        });
         song.setInUserLib(api.getUserSongsUsingGET(authService.getUser().getId()).blockingFirst().stream().anyMatch(it -> it.getId().equals(song.getId())));
         song.setCoauthors(dto.getCoauthors().stream().map(d -> new Coauthor(authorApi.getByIdUsingGET(d.getAuthorId()).blockingFirst(), song, d.getCoauthorFunction())).collect(Collectors.toList()));
         song.setEdits(dto.getEdits().stream().map(d -> new SongEdit(d.getId(), userApi.getByIdUsingGET6(d.getEditedBy()).blockingFirst(), song, d.getTimestamp())).collect(Collectors.toList()));
@@ -68,6 +70,10 @@ public class SongService {
 
     public Observable<List<SongDTO>> songList() {
         return api.getAllUsingGET4(true, null);
+    }
+
+    public Observable<List<SongDTO>> userSongs(Long userId) {
+        return api.getUserSongsUsingGET(userId);
     }
 
     public void likeSong(Long id) {
@@ -90,6 +96,29 @@ public class SongService {
                     ratingApi.createUsingPOST7(new UserSongRatingDTO().songId(id).userId(authService.getUser().getId()).rating(BigDecimal.valueOf(rating))).blockingSubscribe();
                 });
             }
+        });
+    }
+
+    public void isInUserLib(Long id, Consumer<Boolean> callback) {
+        Executors.newSingleThreadExecutor().execute(() ->
+                callback.accept(api.getUserSongsUsingGET(authService.getUser().getId())
+                        .blockingFirst().stream().anyMatch(it -> it.getId().equals(id))));
+    }
+
+    public void rateSong(Long id, Float rating, Consumer<BigDecimal> callback) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            if (rating == null) {
+                ratingApi.deleteUsingDELETE8(id, authService.getUser().getId()).blockingAwait();
+            } else {
+                ratingApi.getByUserIdAndSongIdUsingGET(id, authService.getUser().getId()).blockingSubscribe(res -> {
+                    res.setRating(BigDecimal.valueOf(rating));
+                    ratingApi.updateUsingPUT7(res).blockingSubscribe();
+                }, err -> {
+                    ratingApi.createUsingPOST7(new UserSongRatingDTO().songId(id).userId(authService.getUser().getId()).rating(BigDecimal.valueOf(rating))).blockingSubscribe();
+                });
+            }
+            callback.accept(api.getByIdUsingGET4(id)
+                    .blockingFirst().getAverageRating());
         });
     }
 }

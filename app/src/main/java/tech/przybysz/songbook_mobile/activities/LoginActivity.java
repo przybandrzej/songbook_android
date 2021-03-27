@@ -1,6 +1,7 @@
 package tech.przybysz.songbook_mobile.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,8 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginButton.setOnClickListener(v -> {
-            Log.d("OnClick", "login");
             loadingProgressBar.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.GONE);
+            usernameEditText.setEnabled(false);
+            passwordEditText.setEnabled(false);
             String pass = passwordEditText.getText().toString();
             String login = usernameEditText.getText().toString();
             if (pass == null || pass.trim().isEmpty() || login == null || login.trim().isEmpty()) {
@@ -45,13 +48,11 @@ public class LoginActivity extends AppCompatActivity {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AuthService.getInstance().signIn(login, pass, false)
                         .subscribe(userDTO -> {
-                                    Log.d("Login", "logged in");
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         updateUiWithUser(userDTO);
                                     });
                                 },
                                 error -> {
-                                    Log.d("Error login", String.valueOf(error));
                                     new Handler(Looper.getMainLooper()).post(() -> showLoginFailed(R.string.login_failed));
                                 });
             });
@@ -59,10 +60,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(UserDTO model) {
-        String welcome = getString(R.string.welcome) + model.getUsername();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        startActivity(new Intent(LoginActivity.this, SongbookTableOfContentsActivity.class));
-
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
